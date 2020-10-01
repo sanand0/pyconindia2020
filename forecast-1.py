@@ -11,15 +11,14 @@ for currency in purchases.currency:
     data = pd.read_excel(f'{currency}.xlsx')
     data = data[data[currency] > 0]
     best_aic, best_fit = inf, None
-    for lags in (3, 5, 7, 10, 14, 28, 50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000):
-    # for lags in (3, 5, ):
+    for lags in (3, 5, 7, 10, 14, 28, 60, 90, 120, 183, 365, 730, 1095):
         model = AutoReg(data[currency], lags=lags)
         fit = model.fit()
         if fit.aic < best_aic:
             best_aic, best_fit = fit.aic, fit
     best_model[currency] = best_fit
 
-# Estimate the next month's price increase assuming the same volume as today
+# Estimate next month's price increase assuming the same volume as today
 forecasted_value = 0
 for index, row in purchases.iterrows():
     fit = best_model[row.currency]
