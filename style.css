@@ -1,0 +1,36 @@
+/*  UI component styles. Customize via ?bootstrap-variable=encoded-value. Example:
+    Colors. Can be a name or a number (e.g. %23aabbcc). Preserve the hues below.
+      primary=blue
+      success=green
+      info=cyan
+      warning=orange
+      danger=red
+      secondary=grey
+      light=lightgrey
+      dark=darkgrey
+      body-bg=white
+      body-color=black
+    Fonts. Can be a system font or Open+Sans, Roboto, Lato, Anton, Monserrat
+      font-family-base=Segoe+UI
+      headings-font-family=Segoe+UI
+    Other
+      https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
+*/
+@import url("ui/bootstraptheme.css?danger=%239f0d1b&dark=%23304268&primary=%23073A91&body-bg=%23F1F6FC&success=%23036819&warning=%23d6a20a&font-family-base=segoe-ui&headings-font-family=roboto&font-size-base=1.2rem&navbar-dark-color=rgba(255,255,255,0.8)&navbar-dark-hover-color=%23fff");
+/* For v4 icons, use url("ui/font-awesome/css/font-awesome.min.css") */
+@import url("ui/@fortawesome/fontawesome-free/css/all.min.css");
+
+.home {
+  background-image: url('wave.svg');
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+.small-caps {
+  font-variant: small-caps;
+}
+
+.main-table {
+  width: auto;
+  margin: 0 auto;
+}

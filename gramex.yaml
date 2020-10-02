@@ -1,0 +1,23 @@
+url:
+  # Set up a forecasting websocket handler
+  # https://learn.gramener.com/guide/websockethandler/
+  forecast-socket:
+    pattern: /$YAMLURL/forecast-socket.ws
+    handler: WebSocketHandler
+    kwargs:
+      on_message:
+        function: foresocket.forecast
+
+  forecast-app:
+    pattern: /$YAMLURL/forecast.ws
+    handler: WebSocketHandler
+    kwargs:
+      on_message:
+        function: forecastapp.forecast
+
+# Import all UI components.
+# https://learn.gramener.com/guide/uicomponents/
+import:
+  ui:
+    path: $GRAMEXAPPS/ui/gramex.yaml
+    YAMLURL: $YAMLURL/ui/

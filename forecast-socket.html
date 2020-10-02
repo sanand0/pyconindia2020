@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast - Sockets</title>
+    <link rel="stylesheet" href="ui/bootstraptheme.css">
+  </head>
+  <body>
+
+    <pre class="container messages h3 text-center"></pre>
+
+    <script>
+    var ws = new WebSocket(location.href.replace(/^http/, 'ws').replace(/.html$/, '.ws'))
+    ws.onopen = function () {
+      ws.send('start')
+    }
+    ws.onmessage = function (msg) {
+      document.querySelector('.messages').innerHTML += '<div>' + msg.data + '</div>'
+    }
+  </script>
+  </body>
+</html>

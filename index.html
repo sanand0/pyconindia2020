@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast - App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://gramener.com/comicgen/dist/comicgen.min.css">
+    <script async src="https://gramener.com/comicgen/dist/comicgen.min.js"></script>
+  </head>
+  <body class="home">
+
+    <div class="container my-5">
+      <section class="container py-4 text-center">
+        <h1 class="h2 pb-3 text-light font-weight-bold">Forecast your raw material price</h1>
+        <p class="text-light small-caps">Plan cash-flow with Real-time currency updates and Machine Learning</p>
+
+        <row class="row justify-content-center">
+          <column class="col-12 col-lg-6 d-flex">
+            <card class="card shadow my-4 pt-3 align-self-stretch w-100">
+              <i class="card-img-top d-block fas fa-file-invoice-dollar fa-5x py-3 text-dark"></i>
+              <div class="card-body">
+                <div>
+                  <button class="start btn btn-primary" type="button">Start Forecasting</button>
+                </div>
+                <table class="main-table table h4 text-right border-bottom my-3">
+                  <tr>
+                    <td scope="row">Last Month's Cost</td>
+                    <td class="font-weight-bold"><span class="total_value">⏳</span> K$</td>
+                  </tr>
+                  <tr>
+                    <td scope="row">Forecasted Cost</td>
+                    <td class="font-weight-bold"><span class="total_forecast">⏳</span> K$</td>
+                  </tr>
+                  <tr>
+                    <td scope="row">Change in Cost</td>
+                    <td class="font-weight-bold"><span class="total_diff">⏳</span> K$</td>
+                  </tr>
+                </table>
+                <div class="card-text">
+                  <div class="progress my-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                  </div>
+                  <div class="my-3">Forecast: <span class="currency"></span> <span class="diff"></span></div>
+                  <svg width="500" height="300">
+                    <g class="comicgen" name="panda" face="1" body="0" width="500" height="600" y="-120"></g>
+                  </svg>
+                </div>
+              </div>
+            </card>
+          </column>
+        </row>
+      </section>
+    </div>
+
+    <script src="ui/jquery/dist/jquery.min.js"></script>
+    <script src="ui/numeral/min/numeral.min.js"></script>
+    <script src="https://unpkg.com/flubber@0.3.0"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script>
+      $('.start').on('click', function () {
+        $(this).remove()
+        var ws = new WebSocket(location.href.replace(/^http/, 'ws') + 'forecast.ws')
+        ws.onopen = function () {
+          ws.send('start')
+        }
+        ws.onmessage = function (msg) {
+          var data = JSON.parse(msg.data)
+          $('.total_value').text(numeral(data.total_value).format('0,0'))
+          $('.total_forecast').text(numeral(data.total_forecast).format('0,0'))
+          $('.total_diff').text(numeral(data.total_forecast - data.total_value).format('+0,0'))
+          $('.progress-bar').css('width', data.progress * 100 + '%')
+          $('.progress-bar').text(numeral(data.progress).format('0%'))
+          $('.comicgen').attr('face', 1 - data.progress)
+          comicgen('.comicgen')
+          $('.currency').text(data.currency)
+          $('.diff').text(numeral(data.forecast - data.value).format('+0.00') + ' K$')
+        }
+      })
+  </script>
+  </body>
+</html>
