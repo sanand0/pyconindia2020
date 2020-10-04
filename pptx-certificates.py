@@ -11,3 +11,4 @@ for index, row in pd.read_csv('people.csv').iterrows():
       ]
     )
     target.save(f'Certificate - {row.Name}.pptx')
+    print('Created', f'Certificate - {row.Name}.pptx')
